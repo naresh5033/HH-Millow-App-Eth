@@ -1,11 +1,13 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-etherscan");
+require("@nomiclabs/hardhat-ethers");
 require("hardhat-deploy");
 require("solidity-coverage");
 //require("hardhat-gas-reporter");
 //require("hardhat-contract-sizer");
 require("dotenv").config();
 require("@openzeppelin/hardhat-upgrades");
+//require("@nomicfoundation/hardhat-toolbox");
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -41,18 +43,24 @@ module.exports = {
       //   url: MAINNET_RPC_URL
       // }
       chainId: 31337,
+      allowUnlimitedContractSize: true,
     },
     localhost: {
       chainId: 31337,
+      allowUnlimitedContractSize: true,
     },
     goerli: {
       url: GOERLI_RPC_URL,
+      //address: "0xa7Ffeb3d4E0f6d68946843342D54bfcb43Cb84AA",
       accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
       //   accounts: {
       //     mnemonic: MNEMONIC,
       //   },
       saveDeployments: true,
       chainId: 5,
+      gas: 2100000,
+      gasPrice: 88000000000,
+      allowUnlimitedContractSize: true,
     },
     mainnet: {
       url: MAINNET_RPC_URL,
@@ -63,11 +71,11 @@ module.exports = {
       saveDeployments: true,
       chainId: 1,
     },
-   // polygonMumbai: {
-     // url: RPC_URL,
-      //accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-      //saveDeployments: true,
-      //chainId: 80001,
+    // polygonMumbai: {
+    // url: RPC_URL,
+    //accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+    //saveDeployments: true,
+    //chainId: 80001,
     //},
   },
   etherscan: {
@@ -90,11 +98,19 @@ module.exports = {
   },
   namedAccounts: {
     deployer: {
-      default: 0, // here this will by default take the first account as deployer
-      1: 0, // similarly on mainnet it will take the first account as deployer. Note though that depending on how hardhat network are configured, the account 0 on one network can be different than on another
+      default: 0,
+      //address: "0xa7Ffeb3d4E0f6d68946843342D54bfcb43Cb84AA", // here this will by default take the first account as deployer
+      // similarly on mainnet it will take the first account as deployer. Note though that depending on how hardhat network are configured, the account 0 on one network can be different than on another
     },
-    player: {
+    buyer: {
       default: 1,
+    },
+
+    inspector: {
+      default: 3,
+    },
+    lender: {
+      default: 4,
     },
   },
   solidity: {

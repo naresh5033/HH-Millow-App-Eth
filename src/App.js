@@ -30,13 +30,14 @@ function App() {
 
     const realEstate = new ethers.Contract(
       config[network.chainId].realEstate.address,
+      //"0x5FbDB2315678afecb367f032d93F642f64180aa3",
       RealEstate, //abi
       provider
     );
     const totalSupply = await realEstate.totalSupply(); //Homes(3listings)
     const homes = []; //save them here
 
-    for (var i = 1; i <= totalSupply; i++) {
+    for (var i = 14; i <= totalSupply; i++) {
       const uri = await realEstate.tokenURI(i);
       const response = await fetch(uri);
       const metadata = await response.json();

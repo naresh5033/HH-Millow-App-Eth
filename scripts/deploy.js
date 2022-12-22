@@ -4,26 +4,33 @@
 // You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
-import { namedAccounts } from "../hardhat.config";
-const hre = require("hardhat");
+const { hre, networks, namedAccounts } = require("hardhat");
+const dotenv = require("dotenv").config();
+const ethers = require("ethers");
 
-const {deployer} = namedAccounts;
 const tokens = (n) => {
   return ethers.utils.parseUnits(n.toString(), "ether");
 };
-
+url = process.env.GOERLI_RPC_URL;
+privatekey = process.env.PRIVATE_KEY;
 async function main() {
+  const provider = new ethers.providers.JsonRpcProvider(url);
+  const wallet = new ethers.Wallet(privatekey);
+  let signer = wallet.connect(provider);
+  const seller = signer;
+  //const inspector = "0x6353112CDbF33f2A3c86c891f88613C1963beD39";
+  //const lender = "0x695960BCdCa8B55AEc37B64500Bd64B4BBFe4fFf";
+
   // Setup accounts
-  const [buyer, seller, inspector, lender] = await ethers.getSigners();
+  //const [seller, buyer, inspector, lender] = await ethers.getSigners();
 
   // Deploy Real Estate
   const RealEstate = await ethers.getContractFactory("RealEstate");
-  const realEstate = await RealEstate.deploy(deployer);
+  const realEstate = await RealEstate.deploy();
   await realEstate.deployed();
 
   console.log(`Deployed Real Estate Contract at: ${realEstate.address}`);
   console.log(`Minting 3 properties...\n`);
-  //const IPFS_URL ="https://ipfs.io/ipfs/QmQVcpsjrA6cr1iJjZAodYwmPekYgbnXGo4DFubJiLc2EB/";
 
   for (let i = 0; i < 3; i++) {
     const transaction = await realEstate
@@ -37,14 +44,12 @@ async function main() {
   }
 
   // Deploy Escrow
-
   const Escrow = await ethers.getContractFactory("Escrow");
   const escrow = await Escrow.deploy(
     realEstate.address,
     seller.address,
-    inspector.address,
-    lender.address,
-    deployer
+    inspector,
+    lender
   );
   await escrow.deployed();
 
