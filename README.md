@@ -46,4 +46,4 @@ For the block chain part i ve used HH frame work.
 The contract is deployed and verified in the  in the goerli network and the deployed addr for the Real estate contract is  - "0x1E3b058E906931A654d18fC96Ac9B07a7667599c"
 and the escrow is = "0x606833cd202eb5a418159509f5f6276cbb2a187a"
 
-The Dapp is deployed in the 
+The Dapp is deployed in the heroku --> https://zillow-dapp.herokuapp.com/
