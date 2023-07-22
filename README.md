@@ -47,3 +47,4 @@ The contract is deployed and verified in the  in the goerli network and the depl
 and the escrow is = "0x606833cd202eb5a418159509f5f6276cbb2a187a"
 
 The Dapp is deployed in the heroku --> https://zillow-dapp.herokuapp.com/
+Second Deployment in - https://hh-millow-app-eth.vercel.app/
